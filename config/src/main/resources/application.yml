@@ -1,0 +1,34 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: config
+  profiles:
+    active: composite,default # 如果要使用本地配置文件，此处需增加composite。多profile时，谁在前面谁的配置优先级就高
+  cloud:
+    config:
+      server:
+        bootstrap: true # 提前加载配置文件，保证后续数据库连接正常启动
+        default-profile: default
+        default-label: master
+        composite: # 此配置为使用本地文件，与git脱离关系
+          - type: native
+            search-locations: file:/Users/neil/WorkSpace/Cloud/config/src/main/resources/config
+        git:
+          uri: https://github.com/NeilRen/SpringCloudDemo.git
+          search-paths: springcloud-config
+#          username:
+#          password:
+#          basedir:
+  rabbitmq:
+    addresses: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true

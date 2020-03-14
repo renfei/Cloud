@@ -14,6 +14,7 @@
         <module>account</module>
         <module>api</module>
         <module>datacenter</module>
+        <module>message</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -28,6 +29,7 @@
         <jjwt.version>0.11.0</jjwt.version>
         <druid.version>1.1.17</druid.version>
         <pagehelper.version>1.2.5</pagehelper.version>
+        <aliyunsdk.version>4.0.3</aliyunsdk.version>
     </properties>
 
     <dependencies>

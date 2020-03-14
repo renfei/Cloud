@@ -1,5 +1,6 @@
 package net.renfei.api.message.service;
 
+import net.renfei.api.message.entity.Email;
 import net.renfei.api.message.entity.Sms;
 import net.renfei.sdk.entity.APIResult;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,4 +19,13 @@ public interface MessageService {
      */
     @PostMapping("/message/sendsms")
     APIResult sendSms(Sms sms);
+
+    /**
+     * 发送电子邮件
+     *
+     * @param email
+     * @return
+     */
+    @PostMapping("/message/sendemail")
+    void sendEmail(Email email);
 }

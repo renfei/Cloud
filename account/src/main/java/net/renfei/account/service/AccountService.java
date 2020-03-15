@@ -1,8 +1,6 @@
 package net.renfei.account.service;
 
-import net.renfei.datacenter.database.entity.AccountDO;
-import net.renfei.datacenter.database.entity.AccountDOExample;
-import net.renfei.datacenter.database.persistences.AccountDOMapper;
+import net.renfei.account.client.AccountDataServiceClient;
 import net.renfei.sdk.utils.BeanUtils;
 import net.renfei.sdk.utils.ListUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,22 +18,14 @@ public class AccountService {
     @Autowired
     private JwtService jwtService;
     @Autowired
-    private AccountDOMapper accountDOMapper;
+    private AccountDataServiceClient accountDataServiceClient;
 
     public String getAccountIdByToken(String token) {
         String uuid = jwtService.readToken(token);
         if (!BeanUtils.isEmpty(uuid)) {
-            AccountDOExample accountDoExample = new AccountDOExample();
-            accountDoExample.createCriteria()
-                    .andUuidEqualTo(uuid)
-                    .andUserStatusGreaterThan(0);
-            AccountDO accountDO = ListUtils.getOne(accountDOMapper.selectByExample(accountDoExample));
-            if (!BeanUtils.isEmpty(accountDO)) {
-                if (!BeanUtils.isEmpty(accountDO.getLockTime()) &&
-                        accountDO.getLockTime().after(new Date())) {
-                    return null;
-                }
-                return uuid;
+            String uuidByDb = accountDataServiceClient.getAccountIdById(uuid);
+            if (!BeanUtils.isEmpty(uuidByDb)) {
+                return uuidByDb;
             }
         }
         return null;

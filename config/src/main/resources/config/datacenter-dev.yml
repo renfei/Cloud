@@ -1,0 +1,22 @@
+server:
+  port: 8070
+account:
+  jwtKey: d6gkNTyLchL_ndcgiLnuZddnVmpExFD9lYVOUjLEtCs
+  jwtIssuer: net.renfei.account.authorization
+spring:
+  datasource:
+    url: jdbc:mysql://localhost/cloud?useSSL=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true&useUnicode=true&characterEncoding=utf-8
+    username: root
+    password: root
+    driver-class-name: com.mysql.jdbc.Driver
+mybatis:
+  typeAliasesPackage: net.renfei.datacenter.database.entity
+  mapperLocations: classpath*:mapper/*.xml
+  #  configuration:
+  #    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  #pagehelper分页插件配置
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql

@@ -13,6 +13,14 @@ import org.springframework.web.bind.annotation.PostMapping;
  */
 public interface AccountIdService {
     /**
+     * 申请一个非对称秘钥
+     *
+     * @return
+     */
+    @GetMapping("/account/secretkey")
+    APIResult secretKey();
+
+    /**
      * 登录
      *
      * @param signInVO 登录请求对象

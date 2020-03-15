@@ -28,7 +28,19 @@ public class AccountControllerImpl implements AccountIdService {
     private AccountService accountService;
 
     /**
+     * 申请非对称秘钥
+     *
+     * @return
+     */
+    @Override
+    @ApiOperation("秘钥申请接口")
+    public APIResult secretKey() {
+        return null;
+    }
+
+    /**
      * 登陆
+     *
      * @param signInVO 登录请求对象
      * @return
      */
@@ -40,6 +52,7 @@ public class AccountControllerImpl implements AccountIdService {
 
     /**
      * 注册
+     *
      * @param signUpVO 注册请求对象
      * @return
      */

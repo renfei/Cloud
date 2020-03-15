@@ -1,20 +1,20 @@
-package net.renfei.account;
+package net.renfei.datacenter;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.cloud.client.SpringCloudApplication;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
- * 账户中心
+ * 数据中心
  *
  * @author RenFei
  */
 @EnableAsync
-@EnableFeignClients
 @SpringCloudApplication
-public class AccountApplication {
+@MapperScan("net.renfei.datacenter.database.*")
+public class DataApplication {
     public static void main(String[] args) {
-        SpringApplication.run(AccountApplication.class, args);
+        SpringApplication.run(DataApplication.class, args);
     }
 }

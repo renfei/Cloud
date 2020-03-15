@@ -12,6 +12,15 @@ import lombok.Data;
 @Data
 @ApiModel(value = "登录请求对象")
 public class SignInVO {
+    /**
+     * 秘钥的ID
+     */
+    @ApiModelProperty(value = "秘钥的ID")
+    private String secretKeyId;
+    /**
+     * 用户名、邮箱、手机号
+     */
+    @ApiModelProperty(value = "用户名、邮箱、手机号")
     private String name;
     /**
      * 密码/验证码（如果使用手机登录就是验证码）

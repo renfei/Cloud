@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 /**
  * 账户服务
  *
@@ -35,7 +37,17 @@ public class AccountControllerImpl implements AccountIdService {
     @Override
     @ApiOperation("秘钥申请接口")
     public APIResult secretKey() {
-        return null;
+        Map<Integer, String> map = accountService.secretKey();
+        if (BeanUtils.isEmpty(map)) {
+            return APIResult.builder()
+                    .code(StateCode.Error)
+                    .build();
+        }
+        return APIResult.builder()
+                .code(StateCode.OK)
+                .message(map.get(1))
+                .data(map.get(0))
+                .build();
     }
 
     /**

@@ -38,5 +38,6 @@
         <!--<table tableName="t_account" domainObjectName="AccountDO"></table>-->
         <!--<table tableName="t_token" domainObjectName="TokenDO"></table>-->
         <!--<table tableName="t_map" domainObjectName="MapDO"></table>-->
+        <!--<table tableName="t_secret_key" domainObjectName="SecretKeyDO"></table>-->
     </context>
 </generatorConfiguration>

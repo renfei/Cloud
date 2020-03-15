@@ -1,6 +1,9 @@
 package net.renfei.api.datacenter.service;
 
+import net.renfei.api.datacenter.entity.SecretKeyDTO;
+import net.renfei.api.datacenter.entity.TokenDTO;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 /**
  * 账户数据服务
@@ -13,6 +16,15 @@ public interface AccountDataService {
      *
      * @return
      */
-    @GetMapping("data/accountbytoken")
+    @GetMapping("/data/accountbytoken")
     String getAccountIdById(String uuid);
+
+    @PostMapping("/data/savetoken")
+    int saveToken(TokenDTO tokenDTO);
+
+    @GetMapping("/data/token")
+    TokenDTO getToken(String tokenD);
+
+    @PostMapping("/data/savesecretkey")
+    int saveSecretKey(SecretKeyDTO secretKeyDTO);
 }

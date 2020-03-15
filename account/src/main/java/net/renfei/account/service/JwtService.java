@@ -8,14 +8,11 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
+import net.renfei.account.client.AccountDataServiceClient;
 import net.renfei.account.config.AccountConfig;
-import net.renfei.datacenter.database.entity.TokenDO;
-import net.renfei.datacenter.database.entity.TokenDOExample;
-import net.renfei.datacenter.database.persistences.TokenDOMapper;
+import net.renfei.api.datacenter.entity.TokenDTO;
 import net.renfei.sdk.utils.Builder;
-import net.renfei.sdk.utils.ListUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
@@ -33,7 +30,7 @@ public class JwtService {
     @Autowired
     private AccountConfig accountConfig;
     @Autowired
-    private TokenDOMapper tokenDOMapper;
+    private AccountDataServiceClient accountDataServiceClient;
 
     /**
      * 生成一个Token
@@ -55,14 +52,14 @@ public class JwtService {
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
         //保存到数据库
-        TokenDO tokenDO = Builder.of(TokenDO::new)
-                .with(TokenDO::setUuid, uuid)
-                .with(TokenDO::setUserId, subject)
-                .with(TokenDO::setToken, token)
-                .with(TokenDO::setExpiration, new Date(System.currentTimeMillis() + 1800000L))
-                .with(TokenDO::setIssueTime, now)
+        TokenDTO tokenDO = Builder.of(TokenDTO::new)
+                .with(TokenDTO::setUuid, uuid)
+                .with(TokenDTO::setUserId, subject)
+                .with(TokenDTO::setToken, token)
+                .with(TokenDTO::setExpiration, new Date(System.currentTimeMillis() + 1800000L))
+                .with(TokenDTO::setIssueTime, now)
                 .build();
-        tokenDOMapper.insertSelective(tokenDO);
+        accountDataServiceClient.saveToken(tokenDO);
         return token;
     }
 
@@ -81,17 +78,13 @@ public class JwtService {
                     .parseClaimsJws(token);
             if (accountConfig.getJwtIssuer().equals(claimsJws.getBody().getIssuer())) {
                 //查验数据库
-                TokenDOExample tokenDoExample = new TokenDOExample();
-                tokenDoExample.createCriteria()
-                        .andUuidEqualTo(claimsJws.getBody().getId())
-                        .andUserIdEqualTo(claimsJws.getBody().getSubject())
-                        .andTokenEqualTo(token)
-                        .andExpirationGreaterThanOrEqualTo(new Date());
-                TokenDO tokenDO = ListUtils.getOne(tokenDOMapper.selectByExample(tokenDoExample));
-                if (tokenDO != null) {
+                TokenDTO tokenDTO = accountDataServiceClient.getToken(token);
+                if (tokenDTO != null) {
                     //延长有效期
-                    extensionValidity(tokenDO.getUuid());
-                    return claimsJws.getBody().getSubject();
+                    if (claimsJws.getBody().getId().equals(tokenDTO.getUuid()) &&
+                            claimsJws.getBody().getSubject().equals(tokenDTO.getUserId())) {
+                        return claimsJws.getBody().getSubject();
+                    }
                 }
             }
             return null;
@@ -110,19 +103,5 @@ public class JwtService {
     public String creatingSafeKeys() {
         SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
         return Encoders.BASE64URL.encode(key.getEncoded());
-    }
-
-    /**
-     * 延长token有效期30分钟
-     *
-     * @param tokenId
-     */
-    @Async
-    public void extensionValidity(String tokenId) {
-        TokenDO tokenDO = Builder.of(TokenDO::new)
-                .with(TokenDO::setUuid, tokenId)
-                .with(TokenDO::setExpiration, new Date(System.currentTimeMillis() + 1800000L))
-                .build();
-        tokenDOMapper.updateByPrimaryKeySelective(tokenDO);
     }
 }

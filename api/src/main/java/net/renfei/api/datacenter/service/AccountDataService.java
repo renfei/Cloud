@@ -27,4 +27,7 @@ public interface AccountDataService {
 
     @PostMapping("/data/savesecretkey")
     int saveSecretKey(SecretKeyDTO secretKeyDTO);
+
+    @GetMapping("/data/savesecretkey")
+    String getSecretKey(String uuid);
 }

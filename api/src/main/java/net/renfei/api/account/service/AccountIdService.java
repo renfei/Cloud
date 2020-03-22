@@ -1,5 +1,6 @@
 package net.renfei.api.account.service;
 
+import net.renfei.api.account.entity.ReportPublicKeyVO;
 import net.renfei.api.account.entity.SignInVO;
 import net.renfei.api.account.entity.SignUpVO;
 import net.renfei.sdk.entity.APIResult;
@@ -13,12 +14,20 @@ import org.springframework.web.bind.annotation.PostMapping;
  */
 public interface AccountIdService {
     /**
-     * 申请一个非对称秘钥
+     * 申请一个非对称秘钥的公钥
      *
      * @return
      */
-    @GetMapping("/account/secretkey")
+    @GetMapping("/secretkey")
     APIResult secretKey();
+
+    /**
+     * 上报一个非对称秘钥公钥
+     *
+     * @return
+     */
+    @PostMapping("/secretkey")
+    APIResult setSecretKey(ReportPublicKeyVO reportPublicKeyVO);
 
     /**
      * 登录
@@ -26,7 +35,7 @@ public interface AccountIdService {
      * @param signInVO 登录请求对象
      * @return
      */
-    @PostMapping("/account/signin")
+    @PostMapping("/signin")
     APIResult<String> signIn(SignInVO signInVO);
 
     /**
@@ -35,7 +44,7 @@ public interface AccountIdService {
      * @param signUpVO 注册请求对象
      * @return
      */
-    @PostMapping("/account/signup")
+    @PostMapping("/signup")
     APIResult<String> signUp(SignUpVO signUpVO);
 
     /**
@@ -44,6 +53,6 @@ public interface AccountIdService {
      * @param token
      * @return
      */
-    @GetMapping("/account/getAccountIdByToken")
+    @GetMapping("/getAccountIdByToken")
     APIResult<String> getAccountIdByToken(String token);
 }

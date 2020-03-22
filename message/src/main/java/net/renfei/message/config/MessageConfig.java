@@ -18,4 +18,7 @@ public class MessageConfig {
     private String regionId;
     private String accessKeyId;
     private String secret;
+    private Boolean sandbox;
+    private Long appNotificationKey;
+    private String iOSApnsEnv;
 }

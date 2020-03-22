@@ -3,6 +3,7 @@ package net.renfei.account.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import net.renfei.account.service.AccountService;
+import net.renfei.api.account.entity.ReportPublicKeyVO;
 import net.renfei.api.account.entity.SignInVO;
 import net.renfei.api.account.entity.SignUpVO;
 import net.renfei.api.account.service.AccountIdService;
@@ -24,7 +25,6 @@ import java.util.Map;
  */
 @RestController
 @Api(tags = "账户服务接口")
-@RequestMapping("/account")
 public class AccountControllerImpl implements AccountIdService {
     @Autowired
     private AccountService accountService;
@@ -50,6 +50,12 @@ public class AccountControllerImpl implements AccountIdService {
                 .build();
     }
 
+    @Override
+    @ApiOperation("上报秘钥接口")
+    public APIResult setSecretKey(ReportPublicKeyVO reportPublicKeyVO) {
+        return accountService.setSecretKey(reportPublicKeyVO);
+    }
+
     /**
      * 登陆
      *
@@ -59,7 +65,7 @@ public class AccountControllerImpl implements AccountIdService {
     @Override
     @ApiOperation("账户登录接口")
     public APIResult<String> signIn(@RequestBody SignInVO signInVO) {
-        return null;
+        return accountService.signIn(signInVO);
     }
 
     /**

@@ -1,9 +1,11 @@
 package net.renfei.message.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import net.renfei.api.message.entity.AppNotificationBean;
 import net.renfei.api.message.entity.Email;
 import net.renfei.api.message.entity.Sms;
 import net.renfei.api.message.service.MessageService;
+import net.renfei.message.service.AppNotificationService;
 import net.renfei.message.service.EmailService;
 import net.renfei.message.service.SmsService;
 import net.renfei.sdk.comm.StateCode;
@@ -25,6 +27,8 @@ public class MessageControllerImpl implements MessageService {
     private SmsService smsService;
     @Autowired
     private EmailService emailService;
+    @Autowired
+    private AppNotificationService appNotificationService;
 
     @Override
     public APIResult sendSms(Sms sms) {
@@ -50,5 +54,10 @@ public class MessageControllerImpl implements MessageService {
             log.error(me.getMessage(), me);
         }
 
+    }
+
+    @Override
+    public void sendAppNotification(AppNotificationBean appNotificationBean) {
+        appNotificationService.send(appNotificationBean);
     }
 }

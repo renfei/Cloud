@@ -3,8 +3,10 @@ package net.renfei.message.mq;
 import com.aliyuncs.exceptions.ClientException;
 import lombok.extern.slf4j.Slf4j;
 import net.renfei.api.account.entity.MQChannel;
+import net.renfei.api.message.entity.AppNotificationBean;
 import net.renfei.api.message.entity.Email;
 import net.renfei.api.message.entity.Sms;
+import net.renfei.message.service.AppNotificationService;
 import net.renfei.message.service.EmailService;
 import net.renfei.message.service.SmsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,8 @@ public class MQClient {
     private EmailService emailService;
     @Autowired
     private SmsService smsService;
+    @Autowired
+    private AppNotificationService appNotificationService;
 
     @StreamListener(MQChannel.MESSAGE_SERVICE)
     public void process(Object message) throws MessagingException, ClientException {
@@ -34,6 +38,8 @@ public class MQClient {
             smsService.sendSms((Sms) message);
         } else if (message instanceof Email) {
             emailService.sendEmailWithHtml((Email) message);
+        } else if (message instanceof AppNotificationBean) {
+            appNotificationService.send((AppNotificationBean) message);
         }
     }
 }

@@ -7,6 +7,9 @@ spring:
   profiles:
     active: composite,default # 如果要使用本地配置文件，此处需增加composite。多profile时，谁在前面谁的配置优先级就高
   cloud:
+    bus:
+      trace:
+        enabled: true # 启用日志跟踪
     config:
       server:
         bootstrap: true # 提前加载配置文件，保证后续数据库连接正常启动
@@ -32,3 +35,11 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
   instance:
     prefer-ip-address: true
+management:   # 管理端信息
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always  # 日志显示时机

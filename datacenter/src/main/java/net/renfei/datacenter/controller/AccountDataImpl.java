@@ -7,6 +7,7 @@ import net.renfei.datacenter.service.AccountService;
 import net.renfei.datacenter.service.SecretKeyService;
 import net.renfei.datacenter.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -27,7 +28,7 @@ public class AccountDataImpl implements AccountDataService {
     }
 
     @Override
-    public int saveToken(TokenDTO tokenDTO) {
+    public int saveToken(@RequestBody TokenDTO tokenDTO) {
         return tokenService.saveToken(tokenDTO);
     }
 
@@ -37,7 +38,12 @@ public class AccountDataImpl implements AccountDataService {
     }
 
     @Override
-    public int saveSecretKey(SecretKeyDTO secretKeyDTO) {
+    public int saveSecretKey(@RequestBody SecretKeyDTO secretKeyDTO) {
         return secretKeyService.save(secretKeyDTO);
+    }
+
+    @Override
+    public String getSecretKey(String uuid) {
+        return secretKeyService.getPrivateKey(uuid);
     }
 }

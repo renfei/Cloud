@@ -1,5 +1,6 @@
 package net.renfei.api.message.service;
 
+import net.renfei.api.message.entity.AppNotificationBean;
 import net.renfei.api.message.entity.Email;
 import net.renfei.api.message.entity.Sms;
 import net.renfei.sdk.entity.APIResult;
@@ -17,7 +18,7 @@ public interface MessageService {
      * @param sms
      * @return
      */
-    @PostMapping("/message/sendsms")
+    @PostMapping("/sendsms")
     APIResult sendSms(Sms sms);
 
     /**
@@ -26,6 +27,15 @@ public interface MessageService {
      * @param email
      * @return
      */
-    @PostMapping("/message/sendemail")
+    @PostMapping("/sendemail")
     void sendEmail(Email email);
+
+    /**
+     * 发送APP通知
+     *
+     * @param appNotificationBean
+     * @return
+     */
+    @PostMapping("/sendapp")
+    void sendAppNotification(AppNotificationBean appNotificationBean);
 }

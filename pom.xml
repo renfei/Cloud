@@ -25,12 +25,13 @@
         <spring-boot.version>2.2.5.RELEASE</spring-boot.version>
         <spring-cloud.version>Hoxton.SR3</spring-cloud.version>
         <swagger.version>2.9.2</swagger.version>
-        <renfeisdk.version>0.0.5</renfeisdk.version>
+        <renfeisdk.version>0.0.10</renfeisdk.version>
         <lombok.version>1.18.12</lombok.version>
         <jjwt.version>0.11.0</jjwt.version>
         <druid.version>1.1.17</druid.version>
         <pagehelper.version>1.2.5</pagehelper.version>
         <aliyunsdk.version>4.0.3</aliyunsdk.version>
+        <aliyunsdkpush.version>3.10.1</aliyunsdkpush.version>
     </properties>
 
     <dependencies>

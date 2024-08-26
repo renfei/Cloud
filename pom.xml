@@ -24,7 +24,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <spring-boot.version>2.2.5.RELEASE</spring-boot.version>
         <spring-cloud.version>Hoxton.SR3</spring-cloud.version>
-        <swagger.version>2.9.2</swagger.version>
+        <swagger.version>2.10.0</swagger.version>
         <renfeisdk.version>0.0.10</renfeisdk.version>
         <lombok.version>1.18.12</lombok.version>
         <jjwt.version>0.11.0</jjwt.version>
